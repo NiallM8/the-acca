@@ -1,0 +1,1330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.5">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;The Acca - League Table&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* CSS Variables for Theming */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--font-body: 'Inter', Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--font-title: 'Montserrat', sans-serif;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Accent Color Variables (will be updated by JS) */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--primary-accent-color: #0B57D0; /* Default Blue */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--primary-accent-light: #A8C7FA;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--primary-header-bg: #E8F0FE;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--primary-accent-text-on-light-bg: #0B57D0; /* Text color on light header */</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Fixed Row Highlight Colors (Light) */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-first-light: #e6f4ea; /* Greenish */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-money-light: #e9f5fe; /* Bluish */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-relegation-light: #fce8e6; /* Reddish */</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Base Light Theme */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--body-bg: #f8f9fa;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--container-bg: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-color: #1f1f1f;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-color-soft: #5f6368;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-color-softer: #474747;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--border-color: #e0e0e0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--shadow-color-soft: rgba(0,0,0,0.08);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--shadow-color-medium: rgba(0,0,0,0.05);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--toggle-slider-bg: #d0d0d0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--toggle-knob-bg: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--toggle-knob-shadow: rgba(0,0,0,0.2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--nav-inactive-color: #5f6368;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--nav-hover-bg: #f0f4ff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-hover: #f0f4ff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-first: var(--row-highlight-first-light);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-money: var(--row-highlight-money-light);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-relegation: var(--row-highlight-relegation-light);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--stats-hero-bg: #f1f3f4; /* Light background for hero panel */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-bg-color: #ffffff; /* Chart background */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-border-color: var(--border-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-grid-color: rgba(0, 0, 0, 0.05);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-label-color: var(--text-color-soft);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-tooltip-bg: rgba(0, 0, 0, 0.7);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-tooltip-text: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>body.theme-dark {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Accent Color Variables are now set ONLY by JS */</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Fixed Row Highlight Colors (Dark) */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-first-dark: #2a3b2c;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-money-dark: #2c3a4f;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-relegation-dark: #4d3230;<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Base Dark Theme */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--body-bg: #121212;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--container-bg: #1e1e1e;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-color: #e0e0e0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-color-soft: #b0b0b0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-color-softer: #9e9e9e;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--border-color: #3a3a3a;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--shadow-color-soft: rgba(0,0,0,0.25);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--shadow-color-medium: rgba(0,0,0,0.15);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--toggle-slider-bg: #555555;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--toggle-knob-bg: #cfcfcf;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--toggle-knob-shadow: rgba(0,0,0,0.4);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--nav-inactive-color: #b0b0b0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--nav-hover-bg: #2c3a4f;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-hover: #3a4a6b;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-first: var(--row-highlight-first-dark);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-money: var(--row-highlight-money-dark);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--row-highlight-relegation: var(--row-highlight-relegation-dark);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--stats-hero-bg: #282828; /* Dark background for hero panel */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-bg-color: #282828; /* Chart background */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-border-color: var(--border-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-grid-color: rgba(255, 255, 255, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">             </span>--chart-label-color: var(--text-color-soft);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-tooltip-bg: rgba(255, 255, 255, 0.7);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--chart-tooltip-text: #000000;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: var(--font-body);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px 20px 80px 20px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--body-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.3s ease, color 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 1000px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--container-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 25px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 16px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 12px var(--shadow-color-soft);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.3s ease, box-shadow 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>h1 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: var(--font-title);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-accent-color);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 0;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 35px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* View specific styles */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#tableView, #settingsView, #statsView {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#settingsView, #statsView {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">             </span>padding-top: 10px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#settingsView h2, #statsView h2 {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-accent-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 0;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.6em;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid var(--border-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">         </span>#settingsView p.settings-intro, #statsView p.stats-intro {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color-soft);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 25px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.settings-section {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--body-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: left;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.settings-section h3 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.2em;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.settings-options label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.2s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.settings-options label:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--nav-hover-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.settings-options input[type="radio"] {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-right: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>accent-color: var(--primary-accent-color);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.color-swatches {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-wrap: wrap;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 12px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.color-swatch {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 32px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 32px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 3px solid transparent;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.2s ease, border-color 0.2s ease;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.color-swatch:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: scale(1.1);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.color-swatch.active-swatch {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-color: var(--primary-accent-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stats View Specific Styles */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#statsView .player-select-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px; /* Reduced margin */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: right;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#statsView label {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">             </span>margin-right: 8px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">             </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>font-size: 0.9em;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">             </span>color: var(--text-color-soft);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#playerStatsSelect, #statDataSelect, #chartTypeSelect { /* Apply to all selects */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 6px 10px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--container-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: var(--font-body);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9em;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-width: 140px; /* Adjusted min-width */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-left: 5px; /* Space between label and select */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#playerStatsDisplay {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-height: 100px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color-soft);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stats-hero-panel {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-around;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--stats-hero-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 25px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 4px rgba(0,0,0,0.05);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hero-stat {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hero-stat-label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9em;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color-soft);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-transform: uppercase;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>letter-spacing: 0.5px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hero-stat-value {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.8em;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-accent-color);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stats-chart-controls {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 30px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-wrap: wrap; /* Allow controls to wrap on smaller screens */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#statsChartContainer {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 600px; /* Max width for the chart */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 20px auto; /* Center the chart */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--chart-bg-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--chart-border-color);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">         </span>#statsChart {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>width: 100% !important; /* Ensure canvas fills container */</p>
+<p class="p1"><span class="Apple-converted-space">             </span>height: auto !important;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>aspect-ratio: 16 / 9; /* Maintain aspect ratio */</p>
+<p class="p1"><span class="Apple-converted-space">         </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Table Controls (toggle switch) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.table-controls {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: flex-end;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.toggle-label-text {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 8px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9em;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color-softer);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: default;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: font-weight 0.3s ease, color 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.toggle-label-text.active-label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 500;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-accent-color);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.switch {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: inline-block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 36px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.switch input {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.slider {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>right: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bottom: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--toggle-slider-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>-webkit-transition: .4s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: .4s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 20px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.slider:before {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>content: "";</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 3px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bottom: 3px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--toggle-knob-bg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>-webkit-transition: .4s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: .4s;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 1px 3px var(--toggle-knob-shadow);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>input:checked + .slider {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--primary-accent-light);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>input:checked + .slider:before {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--primary-accent-color);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>-webkit-transform: translateX(16px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>-ms-transform: translateX(16px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateX(16px);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>input:focus + .slider {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 0 0 2px var(--primary-accent-light);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">       </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>table {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-collapse: separate;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-spacing: 0;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 6px var(--shadow-color-medium);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>th, td {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 14px 18px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: left;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>vertical-align: middle;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid var(--border-color);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.3s ease, border-color 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>tr:last-child td {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: none;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>th {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--primary-header-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-accent-text-on-light-bg); /* Use specific variable */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 500;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.98em;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>tr {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>background-color: var(--container-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tr:nth-child(even) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--body-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.row-first-place {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--row-highlight-first) !important;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.row-money-position {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--row-highlight-money) !important;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.row-relegation-zone {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--row-highlight-relegation) !important;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>tr:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--row-hover) !important;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.text-center-col {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>td.col-playerWithMovement {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex !important;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.movement-indicator-wrapper {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-shrink: 0;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: inline-flex;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 45px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-right: 8px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.player-name-display {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-grow: 1;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow: hidden;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-overflow: ellipsis;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>white-space: nowrap;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.movement-indicator {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.1em;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pos-up { color: #188038; }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pos-down { color: #D93025; }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pos-same { color: #FFC107; }<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.places-moved {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.75em;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-left: 3px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 400;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>#messageArea {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.1em;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-color-soft);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Bottom Navigation Bar Styles */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#bottomNav {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bottom: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>right: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 60px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--container-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-around;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 -2px 8px var(--shadow-color-soft);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 1000;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-top-left-radius: 16px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-top-right-radius: 16px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.3s ease, box-shadow 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-item {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-grow: 1;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--nav-inactive-color);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-decoration: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.75em;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: color 0.3s ease, background-color 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 4px 0;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-item svg {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 24px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 24px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 2px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-item.active {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary-accent-color);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-item:hover:not(.active) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--nav-hover-bg);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media screen and (max-width: 768px) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>body { padding: 15px 15px 70px 15px; }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>.container { padding: 20px; border-radius: 12px;}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>h1 { font-size: 1.7em; margin-bottom: 25px; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.table-controls { margin-bottom: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.toggle-label-text { font-size: 0.85em; margin: 0 6px;}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.switch { width: 34px; height: 18px; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.slider:before { height: 12px; width: 12px; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>input:checked + .slider:before { transform: translateX(16px); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>table { border-radius: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>th, td { padding: 10px 12px; font-size: 0.9em; }</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>.movement-indicator-wrapper {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>width: 40px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>margin-right: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.movement-indicator { font-size: 1em; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.places-moved { font-size: 0.7em; margin-left: 2px;}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.player-name-display {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>white-space: normal;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>#bottomNav { height: 56px; }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>.nav-item svg { width: 22px; height: 22px; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.nav-item { font-size: 0.7em; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>.stats-hero-panel { flex-direction: column; gap: 15px; padding: 15px;}</p>
+<p class="p1"><span class="Apple-converted-space">             </span>.hero-stat-value { font-size: 1.6em; }</p>
+<p class="p1"><span class="Apple-converted-space">             </span>#statsView .player-select-container { text-align: center; }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">             </span>.stats-chart-controls { gap: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">             </span>#playerStatsSelect, #statDataSelect, #chartTypeSelect { min-width: 120px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media screen and (max-width: 480px) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>body { padding: 10px 10px 60px 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.container { padding: 15px; border-radius: 8px; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>h1 { font-size: 1.5em; margin-bottom: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">             </span>th, td { padding: 8px 10px; font-size: 0.8em;}</p>
+<p class="p1"><span class="Apple-converted-space">             </span>.movement-indicator-wrapper {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>width: 35px;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>margin-right: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">             </span>.movement-indicator { font-size: 0.95em;}</p>
+<p class="p1"><span class="Apple-converted-space">             </span>.places-moved { font-size: 0.65em;}</p>
+<p class="p1"><span class="Apple-converted-space">             </span>#playerStatsSelect, #statDataSelect, #chartTypeSelect { min-width: 100px; font-size: 0.85em;}</p>
+<p class="p1"><span class="Apple-converted-space">             </span>#statsView label { font-size: 0.85em;}</p>
+<p class="p1"><span class="Apple-converted-space">             </span>.stats-chart-controls { flex-direction: column; align-items: center; }</p>
+<p class="p1"><span class="Apple-converted-space">             </span>#statsChartContainer { padding: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1&gt;The Acca League Table&lt;/h1&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="tableView"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="table-controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="toggle-label-text active-label" id="condensedViewLabel"&gt;Condensed&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label class="switch"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="checkbox" id="viewToggleSwitch"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="slider round"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="toggle-label-text" id="fullTableViewLabel"&gt;Full Table&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="messageArea"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p id="loadingMessage"&gt;Loading league table...&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div style="overflow-x: auto;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;table id="leagueTable" style="display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;thead&gt;&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tbody&gt;&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="statsView" style="display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;h2&gt;Player Stats&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;div class="player-select-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>&lt;label for="playerStatsSelect"&gt;Select Player:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>&lt;select id="playerStatsSelect"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;option value=""&gt;-- Select Player --&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">             </span></p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;div id="playerStatsDisplay"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>Select a player from the dropdown above.</p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;div class="stats-chart-controls" style="display: none;"&gt; &lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;label for="statDataSelect"&gt;Stat:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;select id="statDataSelect"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;option value="wl"&gt;Wins / Losses&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;option value="gfga"&gt;Goals For / Against&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;label for="chartTypeSelect"&gt;Chart Type:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;select id="chartTypeSelect"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;option value="bar"&gt;Bar&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;option value="doughnut"&gt;Doughnut&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;option value="pie"&gt;Pie&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;div id="statsChartContainer" style="display: none;"&gt; &lt;canvas id="statsChart"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="settingsView" style="display:none;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Appearance Settings&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="settings-intro"&gt;Customise the look and feel of the app.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="settings-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h3&gt;Theme Mode&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="settings-options" id="themeModeOptions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label&gt;&lt;input type="radio" name="themeMode" value="system" checked&gt; System&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label&gt;&lt;input type="radio" name="themeMode" value="light"&gt; Light&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label&gt;&lt;input type="radio" name="themeMode" value="dark"&gt; Dark&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="settings-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h3&gt;Accent Color&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="color-swatches" id="accentColorSwatches"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;nav id="bottomNav"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#" class="nav-item active" data-view="tableView"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;path d="M3 9.5H21M3 14.5H21M8 4.5V19.5M6.2 19.5H17.8C18.9201 19.5 19.4802 19.5 19.908 19.282C20.2843 19.0903 20.5903 18.7843 20.782 18.408C21 17.9802 21 17.4201 21 16.3V7.7C21 6.5799 21 6.01984 20.782 5.59202C20.5903 5.21569 20.2843 4.90973 19.908 4.71799C19.4802 4.5 18.9201 4.5 17.8 4.5H6.2C5.0799 4.5 4.51984 4.5 4.09202 4.71799C3.71569 4.90973 3.40973 5.21569 3.21799 5.59202C3 6.01984 3 6.57989 3 7.7V16.3C3 17.4201 3 17.9802 3.21799 18.408C3.40973 18.7843 3.71569 19.0903 4.09202 19.282C4.51984 19.5 5.07989 19.5 6.2 19.5Z" stroke="currentColor" stroke-width="2"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span&gt;Table&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#" class="nav-item" data-view="statsView"&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;svg viewBox="-2.8 0 95 95" xmlns="http://www.w3.org/2000/svg" fill="none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;g transform="translate(-641.5 -462.6)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;path d="M721.7,555.6h-71a7.17,7.17,0,0,1-7.2-7.2h0a7.17,7.17,0,0,1,7.2-7.2h71a7.17,7.17,0,0,1,7.2,7.2h0A7.17,7.17,0,0,1,721.7,555.6Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="4"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;path d="M656.2,464.6h-5a7.768,7.768,0,0,0-7.7,7.7v47.6a7.768,7.768,0,0,0,7.7,7.7h5a7.768,7.768,0,0,0,7.7-7.7V472.3A7.7,7.7,0,0,0,656.2,464.6Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="4"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;path d="M691.3,496.2h-9.6a5.378,5.378,0,0,0-5.4,5.4v20.5a5.378,5.378,0,0,0,5.4,5.4h9.6a5.378,5.378,0,0,0,5.4-5.4V501.6A5.378,5.378,0,0,0,691.3,496.2Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="4"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;path d="M722.4,482.4H715a6.487,6.487,0,0,0-6.5,6.5V521a6.487,6.487,0,0,0,6.5,6.5h7.4a6.487,6.487,0,0,0,6.5-6.5V488.9A6.487,6.487,0,0,0,722.4,482.4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="4"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/g&gt;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;span&gt;Stats&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#" class="nav-item" data-view="settingsView"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;path d="M3.66122 10.6392C4.13377 10.9361 4.43782 11.4419 4.43782 11.9999C4.43781 12.558 4.13376 13.0638 3.66122 13.3607C3.33966 13.5627 3.13248 13.7242 2.98508 13.9163C2.66217 14.3372 2.51966 14.869 2.5889 15.3949C2.64082 15.7893 2.87379 16.1928 3.33973 16.9999C3.80568 17.8069 4.03865 18.2104 4.35426 18.4526C4.77508 18.7755 5.30694 18.918 5.83284 18.8488C6.07287 18.8172 6.31628 18.7185 6.65196 18.5411C7.14544 18.2803 7.73558 18.2699 8.21895 18.549C8.70227 18.8281 8.98827 19.3443 9.00912 19.902C9.02332 20.2815 9.05958 20.5417 9.15224 20.7654C9.35523 21.2554 9.74458 21.6448 10.2346 21.8478C10.6022 22 11.0681 22 12 22C12.9319 22 13.3978 22 13.7654 21.8478C14.2554 21.6448 14.6448 21.2554 14.8478 20.7654C14.9404 20.5417 14.9767 20.2815 14.9909 19.9021C15.0117 19.3443 15.2977 18.8281 15.7811 18.549C16.2644 18.27 16.8545 18.2804 17.3479 18.5412C17.6837 18.7186 17.9271 18.8173 18.1671 18.8489C18.693 18.9182 19.2249 18.7756 19.6457 18.4527C19.9613 18.2106 20.1943 17.807 20.6603 17C20.8677 16.6407 21.029 16.3614 21.1486 16.1272M20.3387 13.3608C19.8662 13.0639 19.5622 12.5581 19.5621 12.0001C19.5621 11.442 19.8662 10.9361 20.3387 10.6392C20.6603 10.4372 20.8674 10.2757 21.0148 10.0836C21.3377 9.66278 21.4802 9.13092 21.411 8.60502C21.3591 8.2106 21.1261 7.80708 20.6601 7.00005C20.1942 6.19301 19.9612 5.7895 19.6456 5.54732C19.2248 5.22441 18.6929 5.0819 18.167 5.15113C17.927 5.18274 17.6836 5.2814 17.3479 5.45883C16.8544 5.71964 16.2643 5.73004 15.781 5.45096C15.2977 5.1719 15.0117 4.6557 14.9909 4.09803C14.9767 3.71852 14.9404 3.45835 14.8478 3.23463C14.6448 2.74458 14.2554 2.35523 13.7654 2.15224C13.3978 2 12.9319 2 12 2C11.0681 2 10.6022 2 10.2346 2.15224C9.74458 2.35523 9.35523 2.74458 9.15224 3.23463C9.05958 3.45833 9.02332 3.71848 9.00912 4.09794C8.98826 4.65566 8.70225 5.17191 8.21891 5.45096C7.73557 5.73002 7.14548 5.71959 6.65205 5.4588C6.31633 5.28136 6.0729 5.18269 5.83285 5.15108C5.30695 5.08185 4.77509 5.22436 4.35427 5.54727C4.03866 5.78945 3.80569 6.19297 3.33974 7C3.13231 7.35929 2.97105 7.63859 2.85138 7.87273" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span&gt;Settings&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/nav&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// URL for the Google Sheet published as CSV</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTs_5bRoiwvSe1ALIAIoo8dCP_eIhIm9dk5eQplyFbwojrbhI0JRHYTysVjfSiW6RdIf-EqGFggZ7RY/pub?output=csv';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Configuration: Column Mapping and Definitions ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const columnMapping = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'name': 'player',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'matchesPlayed': 'mp',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'wins': 'w',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'losses': 'l',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'goalsFor': 'gf',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'goalsAgainst': 'ga',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'goalDifference': 'gd',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'winPercentage': 'winPercentage',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'averageOdds': 'avgOdds',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'expectedWinPercentage': 'expectedWinPercentage',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'points': 'pts',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'previousPosition': 'previousPositionValue'</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tableColumnDefinitions = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'pos', header: 'Pos', isExpandedOnly: false, centerAlign: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'playerWithMovement', header: 'Player', isExpandedOnly: false, centerAlign: false },<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'mp', header: 'MP', isExpandedOnly: false, centerAlign: true },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'w', header: 'W', isExpandedOnly: false, centerAlign: true },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'l', header: 'L', isExpandedOnly: false, centerAlign: true },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'gf', header: 'GF', isExpandedOnly: true, centerAlign: true },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'ga', header: 'GA', isExpandedOnly: true, centerAlign: true },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'gd', header: 'GD', isExpandedOnly: false, centerAlign: true },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'winPercentage', header: 'Win %', isExpandedOnly: true, centerAlign: true },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'avgOdds', header: 'Avg Odds', isExpandedOnly: true, centerAlign: true },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'expectedWinPercentage', header: 'xWin %', isExpandedOnly: true, centerAlign: true },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ key: 'pts', header: 'Pts', isExpandedOnly: false, centerAlign: true }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Accent Color Definitions ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const accentColors = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'Default Blue', value: '#0B57D0', lightValue: '#A8C7FA', headerBg: '#E8F0FE', textOnLight: '#0B57D0', darkValue: '#7cacf8', darkLightValue: '#4a69bb', darkHeaderBg: '#2c3a4f', darkTextOnLight: '#7cacf8'},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'Custom Green', value: '#65fcac', lightValue: '#b2fcdb', headerBg: '#d9fff0', textOnLight: '#007d3e', darkValue: '#83fcc2', darkLightValue: '#3ba072', darkHeaderBg: '#1e4d32', darkTextOnLight: '#83fcc2'},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'Material Red', value: '#B3261E', lightValue: '#f8b5b0', headerBg: '#fce8e6', textOnLight: '#B3261E', darkValue: '#f28b82', darkLightValue: '#a53c3c', darkHeaderBg: '#5c1f1f', darkTextOnLight: '#f28b82'},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'Material Pink', value: '#E91E63', lightValue: '#fcc2d8', headerBg: '#fce4ec', textOnLight: '#E91E63', darkValue: '#f48fb1', darkLightValue: '#b05977', darkHeaderBg: '#632539', darkTextOnLight: '#f48fb1'},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'Material Purple', value: '#6750A4', lightValue: '#d1c4e9', headerBg: '#ede7f6', textOnLight: '#6750A4', darkValue: '#b39ddb', darkLightValue: '#7e57c2', darkHeaderBg: '#3c2f5d', darkTextOnLight: '#b39ddb'},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'Material Orange', value: '#FB8C00', lightValue: '#ffe0b2', headerBg: '#fff3e0', textOnLight: '#FB8C00', darkValue: '#ffcc80', darkLightValue: '#ef6c00', darkHeaderBg: '#783d00', darkTextOnLight: '#ffcc80'},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ name: 'Material Yellow', value: '#FDD835', lightValue: '#fff9c4', headerBg: '#fffde7', textOnLight: '#c6a700', darkValue: '#fff176', darkLightValue: '#fbc02d', darkHeaderBg: '#7c6000', darkTextOnLight: '#fff176'}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Global State ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentTableDisplayView = 'condensed';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentAppView = 'tableView';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let allPlayersData = [];<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let playerStatsChart = null; // Variable to hold the chart instance</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- DOM Elements ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const docElement = document.documentElement;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const bodyElement = document.body;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const loadingMessageEl = document.getElementById('loadingMessage');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const messageAreaEl = document.getElementById('messageArea');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const leagueTableEl = document.getElementById('leagueTable');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const viewToggleSwitchEl = document.getElementById('viewToggleSwitch');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const condensedViewLabelEl = document.getElementById('condensedViewLabel');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fullTableViewLabelEl = document.getElementById('fullTableViewLabel');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tableViewEl = document.getElementById('tableView');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const settingsViewEl = document.getElementById('settingsView');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const statsViewEl = document.getElementById('statsView');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const navItems = document.querySelectorAll('.nav-item');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const themeModeOptionsEl = document.getElementById('themeModeOptions');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const accentColorSwatchesEl = document.getElementById('accentColorSwatches');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const playerStatsSelectEl = document.getElementById('playerStatsSelect');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const playerStatsDisplayEl = document.getElementById('playerStatsDisplay');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const statsChartControlsEl = document.querySelector('.stats-chart-controls'); // Chart controls container</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const statDataSelectEl = document.getElementById('statDataSelect'); // Stat selection dropdown</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const chartTypeSelectEl = document.getElementById('chartTypeSelect'); // Chart type dropdown</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const statsChartContainerEl = document.getElementById('statsChartContainer'); // Chart container</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const statsChartCanvasEl = document.getElementById('statsChart'); // Canvas element</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Core Functions ---</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Fetches CSV data, processes it, populates table and stats dropdown.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function fetchDataAndInitialize() {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (allPlayersData.length &gt; 0 || (messageAreaEl &amp;&amp; messageAreaEl.textContent.includes("Error"))) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if(allPlayersData.length &gt; 0 &amp;&amp; playerStatsSelectEl &amp;&amp; playerStatsSelectEl.options.length &lt;= 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>populateStatsDropdown();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (messageAreaEl) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>messageAreaEl.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (loadingMessageEl) loadingMessageEl.textContent = 'Loading league data...';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (leagueTableEl) leagueTableEl.style.display = 'none';<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const response = await fetch(csvUrl, { cache: "no-store" });</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (!response.ok) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const csvText = await response.text();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>allPlayersData = parseAndProcessCsv(csvText);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (allPlayersData.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>renderLeagueTable();<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>populateStatsDropdown();<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (messageAreaEl) messageAreaEl.style.display = 'none';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (leagueTableEl) leagueTableEl.style.display = '';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (loadingMessageEl) loadingMessageEl.textContent = 'No player data found or CSV is empty.';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (leagueTableEl) leagueTableEl.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error('Error fetching or processing league data:', error);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (loadingMessageEl) loadingMessageEl.textContent = `Error loading table: ${error.message}. Please check the CSV link and format.`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (leagueTableEl) leagueTableEl.style.display = 'none';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (messageAreaEl) messageAreaEl.style.display = 'block';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>}<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Parses raw CSV text into an array of player objects and processes them.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* @param {string} csvText - The raw CSV data as a string.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* @returns {Array&lt;Object&gt;} Processed and sorted player data.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function parseAndProcessCsv(csvText) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const rows = csvText.trim().split('\n');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (rows.length &lt; 2) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.warn("CSV data is empty or has no data rows.");</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const rawHeaders = rows.shift().trim().split(',');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const headers = rawHeaders.map(h =&gt; h.replace(/^\uFEFF/, "").trim().replace(/^"|"$/g, ''));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const headerIndices = {};</p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (const csvHeaderKey in columnMapping) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const internalKey = columnMapping[csvHeaderKey];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const index = headers.indexOf(csvHeaderKey);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (index === -1) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>console.warn(`Required CSV Header "${csvHeaderKey}" (for internal key "${internalKey}") not found. Column will be missing.`);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>headerIndices[internalKey] = index;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (headerIndices.pts === undefined || headerIndices.pts === -1) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>throw new Error("'points' column (mapped to 'pts') is missing in the CSV. Table cannot be sorted.");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (headerIndices.player === undefined || headerIndices.player === -1) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>throw new Error("'name' column (mapped to 'player') is missing. Player names cannot be displayed.");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let players = rows.map(rowStr =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const values = rowStr.trim().split(',');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const player = {};</p>
+<p class="p1"><span class="Apple-converted-space">                </span>for (const internalKey in headerIndices) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const csvIndex = headerIndices[internalKey];</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (csvIndex !== -1 &amp;&amp; values[csvIndex] !== undefined) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>let value = values[csvIndex].trim().replace(/^"|"$/g, '');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const numericKeys = ['mp', 'w', 'l', 'gf', 'ga', 'gd', 'pts', 'previousPositionValue'];</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if (numericKeys.includes(internalKey)) {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>value = parseFloat(value);</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>if (isNaN(value)) value = 0;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>player[internalKey] = value;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const numericKeys = ['mp', 'w', 'l', 'gf', 'ga', 'gd', 'pts', 'previousPositionValue'];</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>player[internalKey] = (numericKeys.includes(internalKey)) ? 0 : null;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return player;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}).filter(p =&gt; p.player &amp;&amp; p.player.trim() !== "");</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Sort players based on league rules (Points DESC, GD DESC, GF DESC, Name ASC)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>players.sort((a, b) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (b.pts !== a.pts) return b.pts - a.pts;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (b.gd !== a.gd) return b.gd - a.gd;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (b.gf !== a.gf) return b.gf - a.gf;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return a.player.localeCompare(b.player);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Assign position and movement indicator AFTER sorting</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return players.map((player, index) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const currentPos = index + 1;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>player.pos = currentPos;<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>let movementHtml = '';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>let placesMoved = 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (player.previousPositionValue !== null &amp;&amp; !isNaN(player.previousPositionValue) &amp;&amp; player.previousPositionValue &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const prevPos = parseInt(player.previousPositionValue, 10);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>placesMoved = Math.abs(currentPos - prevPos);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (currentPos &lt; prevPos) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>movementHtml = `&lt;span class="movement-indicator pos-up"&gt;↑&lt;span class="places-moved"&gt;${placesMoved}&lt;/span&gt;&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else if (currentPos &gt; prevPos) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>movementHtml = `&lt;span class="movement-indicator pos-down"&gt;↓&lt;span class="places-moved"&gt;${placesMoved}&lt;/span&gt;&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>movementHtml = `&lt;span class="movement-indicator pos-same"&gt;–&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>movementHtml = `&lt;span class="movement-indicator pos-same"&gt;–&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>player.playerWithMovement = `&lt;span class="movement-indicator-wrapper"&gt;${movementHtml}&lt;/span&gt;&lt;span class="player-name-display"&gt;${player.player || 'N/A'}&lt;/span&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return player;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Renders the league table content.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function renderLeagueTable() {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (!leagueTableEl) return;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>const thead = leagueTableEl.querySelector('thead');</p>
+<p class="p1"><span class="Apple-converted-space">             </span>const tbody = leagueTableEl.querySelector('tbody');</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (!thead || !tbody) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>thead.innerHTML = '';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>tbody.innerHTML = '';<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const columnsForCurrentTableDisplayView = tableColumnDefinitions.filter(colDef =&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>!colDef.isExpandedOnly || (colDef.isExpandedOnly &amp;&amp; currentTableDisplayView === 'expanded')</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const headerRow = document.createElement('tr');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>columnsForCurrentTableDisplayView.forEach(colDef =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const th = document.createElement('th');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>th.textContent = colDef.header;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (colDef.centerAlign) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>th.classList.add('text-center-col');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>th.classList.add(`col-${colDef.key}`);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (colDef.isExpandedOnly) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>th.classList.add('expanded-only-col');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>headerRow.appendChild(th);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>thead.appendChild(headerRow);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>allPlayersData.forEach(player =&gt; {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const tr = document.createElement('tr');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (player.pos === 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tr.classList.add('row-first-place');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else if (player.pos === 2 || player.pos === 3) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tr.classList.add('row-money-position');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else if (player.pos === 15 || player.pos === 16) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tr.classList.add('row-relegation-zone');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>columnsForCurrentTableDisplayView.forEach(colDef =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const td = document.createElement('td');</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (colDef.key === 'playerWithMovement') {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>td.innerHTML = player[colDef.key] !== undefined ? player[colDef.key] : 'N/A';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>td.textContent = player[colDef.key] !== undefined &amp;&amp; player[colDef.key] !== null ? player[colDef.key] : 'N/A';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (colDef.centerAlign) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>td.classList.add('text-center-col');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>td.classList.add(`col-${colDef.key}`);<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (colDef.key === 'playerWithMovement') {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const wrapper = td.querySelector('.movement-indicator-wrapper');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if(wrapper) {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                           </span>wrapper.style.marginRight = (currentTableDisplayView === 'expanded') ? '12px' : '8px';</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (colDef.isExpandedOnly) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>td.classList.add('expanded-only-col');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tr.appendChild(td);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tbody.appendChild(tr);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Switches the main application view (Table, Stats, or Settings).</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* @param {string} viewId - The ID of the view to show ('tableView', 'statsView', 'settingsView').</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function switchAppView(viewId) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentAppView = viewId;<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Hide all views first</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (tableViewEl) tableViewEl.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (statsViewEl) statsViewEl.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (settingsViewEl) settingsViewEl.style.display = 'none';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Show the selected view</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const viewToShow = document.getElementById(viewId);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (viewToShow) {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>viewToShow.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Fetch data only if table or stats view is selected and data isn't loaded</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if ((viewId === 'tableView' || viewId === 'statsView') &amp;&amp; allPlayersData.length === 0 &amp;&amp; (!messageAreaEl || !messageAreaEl.textContent.includes("Error"))) {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>fetchDataAndInitialize(); // Use combined fetch function</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Update active state on nav items</p>
+<p class="p1"><span class="Apple-converted-space">            </span>navItems.forEach(item =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>item.classList.toggle('active', item.getAttribute('data-view') === viewId);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Applies the selected accent color based on current theme mode.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* @param {string} colorValue - The base hex value (light mode) of the accent color.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function applyAccentColor(colorValue) {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>// Safeguard added</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (!accentColors || accentColors.length === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error("Accent colors not defined or empty!");</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const selectedColorObject = accentColors.find(c =&gt; c.value === colorValue) || accentColors[0];<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const isDarkMode = bodyElement.classList.contains('theme-dark');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>docElement.style.setProperty('--primary-accent-color', isDarkMode ? selectedColorObject.darkValue : selectedColorObject.value);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>docElement.style.setProperty('--primary-accent-light', isDarkMode ? selectedColorObject.darkLightValue : selectedColorObject.lightValue);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>docElement.style.setProperty('--primary-header-bg', isDarkMode ? selectedColorObject.darkHeaderBg : selectedColorObject.headerBg);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>docElement.style.setProperty('--primary-accent-text-on-light-bg', isDarkMode ? selectedColorObject.darkTextOnLight : selectedColorObject.textOnLight);</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (accentColorSwatchesEl) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>accentColorSwatchesEl.querySelectorAll('.color-swatch').forEach(swatch =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>swatch.classList.toggle('active-swatch', swatch.dataset.colorValue === colorValue);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>localStorage.setItem('accentColor', colorValue);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Applies the selected theme mode (light, dark, or system).</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* @param {string} mode - 'light', 'dark', or 'system'.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function applyThemeMode(mode) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bodyElement.classList.remove('theme-dark', 'theme-light');<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (mode === 'dark') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bodyElement.classList.add('theme-dark');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (mode === 'light') {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>// No class needed</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else { // System</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (window.matchMedia &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>bodyElement.classList.add('theme-dark');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>localStorage.setItem('themeMode', mode);</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Safeguard before accessing accentColors</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!accentColors || accentColors.length === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error("Cannot apply accent color: Accent colors not defined or empty!");</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>return; // Exit if colors not ready</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const storedAccent = localStorage.getItem('accentColor') || accentColors[0].value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>applyAccentColor(storedAccent);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Populate Settings Controls ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function populateAccentSwatches() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!accentColorSwatchesEl) return;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>accentColorSwatchesEl.innerHTML = '';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>accentColors.forEach(color =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const swatch = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>swatch.classList.add('color-swatch');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>swatch.style.backgroundColor = color.value;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>swatch.dataset.colorValue = color.value;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>swatch.setAttribute('title', color.name);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>swatch.addEventListener('click', () =&gt; applyAccentColor(color.value));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>accentColorSwatchesEl.appendChild(swatch);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Populates the player dropdown in the Stats view.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function populateStatsDropdown() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!playerStatsSelectEl || allPlayersData.length === 0) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Clear existing options except the placeholder</p>
+<p class="p1"><span class="Apple-converted-space">            </span>playerStatsSelectEl.length = 1;<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Sort players alphabetically for the dropdown</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const sortedPlayers = [...allPlayersData].sort((a, b) =&gt; a.player.localeCompare(b.player));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>sortedPlayers.forEach(player =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const option = document.createElement('option');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>option.value = player.player; // Use player name as value<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>option.textContent = player.player;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>playerStatsSelectEl.appendChild(option);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Displays stats (hero panel + chart) for the selected player.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* @param {string} selectedPlayerName - The name of the player selected in the dropdown.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function displayPlayerStats(selectedPlayerName) {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (!playerStatsDisplayEl) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>// Clear previous content and hide chart controls initially</p>
+<p class="p1"><span class="Apple-converted-space">             </span>playerStatsDisplayEl.innerHTML = '';<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (statsChartControlsEl) statsChartControlsEl.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (statsChartContainerEl) statsChartContainerEl.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (playerStatsChart) { // Destroy previous chart if it exists</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>playerStatsChart.destroy();</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>playerStatsChart = null;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (!selectedPlayerName) {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>playerStatsDisplayEl.innerHTML = 'Select a player from the dropdown above.';</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>playerStatsDisplayEl.style.textAlign = 'center';</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>const playerData = allPlayersData.find(p =&gt; p.player === selectedPlayerName);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>if (playerData) {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>// --- Create Hero Panel ---</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>const heroPanel = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>heroPanel.classList.add('stats-hero-panel');</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>heroPanel.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;div class="hero-stat"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;span class="hero-stat-label"&gt;Position&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;span class="hero-stat-value"&gt;${playerData.pos}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;div class="hero-stat"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;span class="hero-stat-label"&gt;Win %&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;span class="hero-stat-value"&gt;${playerData.winPercentage || 'N/A'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;div class="hero-stat"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;span class="hero-stat-label"&gt;Points&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;span class="hero-stat-value"&gt;${playerData.pts}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>playerStatsDisplayEl.appendChild(heroPanel);</p>
+<p class="p2"><span class="Apple-converted-space">                 </span></p>
+<p class="p1"><span class="Apple-converted-space">                 </span>// --- Show Chart Controls and Container ---</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (statsChartControlsEl) statsChartControlsEl.style.display = 'flex'; // Show controls</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (statsChartContainerEl) statsChartContainerEl.style.display = 'block'; // Show chart container</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                 </span>// --- Initial Chart Render (or update based on controls) ---</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>updateStatsChart(); // Call function to draw/update chart</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>playerStatsDisplayEl.innerHTML = `Could not find data for ${selectedPlayerName}.`;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                 </span>playerStatsDisplayEl.style.textAlign = 'center';</p>
+<p class="p1"><span class="Apple-converted-space">             </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Updates the stats chart based on current selections.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateStatsChart() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const selectedPlayerName = playerStatsSelectEl.value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const selectedStat = statDataSelectEl.value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const selectedChartType = chartTypeSelectEl.value;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!selectedPlayerName || !statsChartCanvasEl) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Hide container if no player selected</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (statsChartContainerEl) statsChartContainerEl.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const playerData = allPlayersData.find(p =&gt; p.player === selectedPlayerName);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!playerData) return; // Should not happen if dropdown is populated correctly</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let chartData = {};</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let chartOptions = {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>responsive: true,</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>maintainAspectRatio: false, // Allow canvas resizing</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>plugins: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>legend: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>position: 'top',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>labels: { color: getComputedStyle(docElement).getPropertyValue('--text-color') } // Use CSS var for label color</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tooltip: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>backgroundColor: getComputedStyle(docElement).getPropertyValue('--chart-tooltip-bg'),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>titleColor: getComputedStyle(docElement).getPropertyValue('--chart-tooltip-text'),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>bodyColor: getComputedStyle(docElement).getPropertyValue('--chart-tooltip-text'),</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>scales: { // Default scales (relevant for bar/line)</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>y: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>beginAtZero: true,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ticks: { color: getComputedStyle(docElement).getPropertyValue('--chart-label-color') },</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>grid: { color: getComputedStyle(docElement).getPropertyValue('--chart-grid-color') }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>x: {</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>ticks: { color: getComputedStyle(docElement).getPropertyValue('--chart-label-color') },</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>grid: { color: getComputedStyle(docElement).getPropertyValue('--chart-grid-color') }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Prepare data based on selected stat</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (selectedStat === 'wl') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>chartData = {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>labels: ['Wins', 'Losses'],</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>datasets: [{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>label: 'Wins vs Losses',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>data: [playerData.w, playerData.l],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>backgroundColor: [ // Example colors - could be themed</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'rgba(75, 192, 192, 0.6)', // Greenish</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'rgba(255, 99, 132, 0.6)'<span class="Apple-converted-space">  </span>// Reddish</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>borderColor: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'rgba(75, 192, 192, 1)',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'rgba(255, 99, 132, 1)'</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>borderWidth: 1</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}]</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Hide axes for pie/doughnut</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (selectedChartType === 'pie' || selectedChartType === 'doughnut') {</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>delete chartOptions.scales;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (selectedStat === 'gfga') {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>chartData = {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>labels: ['Goals For', 'Goals Against'],</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>datasets: [{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>label: 'Goals For vs Against',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>data: [playerData.gf, playerData.ga],</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>backgroundColor: [ // Example colors</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'rgba(54, 162, 235, 0.6)', // Bluish</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'rgba(255, 159, 64, 0.6)' // Orangish</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>borderColor: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'rgba(54, 162, 235, 1)',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'rgba(255, 159, 64, 1)'</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>borderWidth: 1</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}]</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>// Hide axes for pie/doughnut</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (selectedChartType === 'pie' || selectedChartType === 'doughnut') {</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>delete chartOptions.scales;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// --- Add more 'else if' blocks here for other stat options ---</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Destroy previous chart instance if it exists</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (playerStatsChart) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>playerStatsChart.destroy();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Create new chart</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (statsChartCanvasEl.getContext('2d') &amp;&amp; Object.keys(chartData).length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (statsChartContainerEl) statsChartContainerEl.style.display = 'block'; // Ensure container is visible</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>const ctx = statsChartCanvasEl.getContext('2d');</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>playerStatsChart = new Chart(ctx, {</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>type: selectedChartType, // Use selected type</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>data: chartData,</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>options: chartOptions</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>// Hide container if no data prepared</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (statsChartContainerEl) statsChartContainerEl.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>console.warn("Could not get canvas context or no data prepared for chart.");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Event Listeners ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>viewToggleSwitchEl.addEventListener('change', () =&gt; {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (viewToggleSwitchEl.checked) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>currentTableDisplayView = 'expanded';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>condensedViewLabelEl.classList.remove('active-label');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fullTableViewLabelEl.classList.add('active-label');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>currentTableDisplayView = 'condensed';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>condensedViewLabelEl.classList.add('active-label');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fullTableViewLabelEl.classList.remove('active-label');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderLeagueTable();<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">         </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>navItems.forEach(item =&gt; {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>item.addEventListener('click', (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>event.preventDefault();<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const viewId = item.getAttribute('data-view');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>switchAppView(viewId);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">         </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(themeModeOptionsEl) {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>themeModeOptionsEl.addEventListener('change', (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (event.target.name === 'themeMode') {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>applyThemeMode(event.target.value);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Redraw chart on theme change as colors might need updating</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>if (currentAppView === 'statsView') {</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>updateStatsChart();</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const systemThemeMatcher = window.matchMedia('(prefers-color-scheme: dark)');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>systemThemeMatcher.addEventListener('change', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const currentThemeMode = localStorage.getItem('themeMode') || 'system';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentThemeMode === 'system') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>applyThemeMode('system');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                 </span>// Redraw chart on theme change</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (currentAppView === 'statsView') {</p>
+<p class="p1"><span class="Apple-converted-space">                     </span>updateStatsChart();</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Listener for the stats player dropdown</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(playerStatsSelectEl) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>playerStatsSelectEl.addEventListener('change', (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>displayPlayerStats(event.target.value); // This will now call updateStatsChart</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Listeners for chart configuration dropdowns</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(statDataSelectEl) {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>statDataSelectEl.addEventListener('change', updateStatsChart);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(chartTypeSelectEl) {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>chartTypeSelectEl.addEventListener('change', updateStatsChart);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Initial Load ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.addEventListener('DOMContentLoaded', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Initialize table view toggle</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (viewToggleSwitchEl) viewToggleSwitchEl.checked = false;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (condensedViewLabelEl) condensedViewLabelEl.classList.add('active-label');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (fullTableViewLabelEl) fullTableViewLabelEl.classList.remove('active-label');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>populateAccentSwatches(); // Create the swatches</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Load and apply saved theme mode FIRST</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const storedThemeMode = localStorage.getItem('themeMode') || 'system';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(themeModeOptionsEl){</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>const radioToCheck = themeModeOptionsEl.querySelector(`input[name="themeMode"][value="${storedThemeMode}"]`);</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if(radioToCheck) radioToCheck.checked = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Apply theme mode (this will also trigger initial accent color application)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Check if accentColors is defined before calling applyThemeMode</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (typeof accentColors !== 'undefined' &amp;&amp; accentColors.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>applyThemeMode(storedThemeMode);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                 </span>// Load and apply saved accent color (this might be slightly redundant now, but safe)</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>const storedAccentColor = localStorage.getItem('accentColor') || accentColors[0].value;</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>applyAccentColor(storedAccentColor);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>console.error("Accent colors not ready during initial load.");</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>// Apply theme mode without accent color initially if accentColors isn't ready</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>bodyElement.classList.remove('theme-dark', 'theme-light');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                 </span>if (storedThemeMode === 'dark') bodyElement.classList.add('theme-dark');</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>else if (storedThemeMode === 'system' &amp;&amp; window.matchMedia &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches) bodyElement.classList.add('theme-dark');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>switchAppView('tableView'); // Start on the table view</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
